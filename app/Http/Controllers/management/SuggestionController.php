@@ -32,16 +32,16 @@ class SuggestionController extends Controller {
     return view('pages.admin.suggestions.suggestionShow',compact('info','suggestion'));
   }
   // store suggestion into DB
-  public function storeSuggestion(Request $request){  
+  public function storeSuggestion(Request $request){
     $idReceiver= $request->input('compose_to');
     $idSender = auth()->user()->info->user_id;
     $fileNameToStore=null;
-
     $urgent=0;
     if($request->input('urgent')!=null){
       $urgent=$request->input('urgent');
     }
 
+    $path = null;
     if($request->hasFile('attachment')){
       $filenameWithExt = $request->file('attachment')->getClientOriginalName();
       $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
@@ -49,14 +49,14 @@ class SuggestionController extends Controller {
       $fileNameToStore = $filename.'_'.time().'.'.$extension;
       $path = $request->file('attachment')->storeAs('public/attachments/suggestion',$fileNameToStore);
     }
-    
+
     $suggestion = new Suggestion;
     $suggestion->user_info_id_sender=$idSender;
     $suggestion->user_info_id_receiver=$idReceiver;
     $suggestion->title=$request->input('title');
     $suggestion->message=$request->input('message');
     $suggestion->urgent=$urgent;
-    $suggestion->attachment=$fileNameToStore;
+    $suggestion->attachment=$path;
     $suggestion->save();
     return redirect()->back()->with('editAdminInfo', '200');   
   }

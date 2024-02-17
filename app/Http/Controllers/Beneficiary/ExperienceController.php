@@ -41,7 +41,6 @@ class ExperienceController extends Controller {
 
       $user = auth()->user();
       $userStats = $this->userStatsService->getUserStats($user);
-
       $info = auth()->user()->info;
     return view('pages.account.experiences.experiences', compact('info','userStats'));
   }
@@ -51,7 +50,7 @@ class ExperienceController extends Controller {
 
     $fileNameToStore=null;
     $request->validate([
-      'attachment'=> ['required','max:200']
+      'attachment'=> ['required'],
     ]);
 
 
@@ -62,7 +61,6 @@ class ExperienceController extends Controller {
       $fileNameToStore = $filename.'_'.time().'.'.$extension;
       $path = $request->file('attachment')->storeAs('public/attachments/experience',$fileNameToStore);
     }
-
     $experience = new Experience;
     $experience->beneficiary_id = auth()->user()->info->beneficiaryProfile->id;
 

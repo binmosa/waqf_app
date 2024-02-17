@@ -132,7 +132,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('beneficiaries', BeneficiaryController::class);
         Route::resource('supporters', SupporterController::class);
         Route::resource('services', ServiceController::class);
-        Route::resource('suggestions', SuggestionController::class);
+        // Route::resource('suggestions', SuggestionController::class);
         Route::resource('districts', DistrictController::class);
         Route::resource('influenceTypes', InfluenceTypeController::class);
         Route::resource('organizations', OrganizationController::class);

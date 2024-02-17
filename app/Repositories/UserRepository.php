@@ -61,18 +61,11 @@ class UserRepository implements UserRepositoryInterface
         $info->phone    = $data['phone'];
         $info->website  = $data['website'];
         $info->country  = $data['country'];
+        $info->district_id = $data['distric'];
         $info->language = $data['language'];
         $info->timezone = $data['timezone'];
         $info->currency = $data['currency'];
         $info->contact_method = $data['contact_method'];
-
-        //update discrit and city
-
-
-        $info->district()->update([
-            'city' => $data['city'],
-            'distric' => $data['distric']
-        ]);
 
 
         $this->userServices->uploadImage($data, $info);
