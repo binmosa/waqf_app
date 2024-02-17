@@ -166,26 +166,6 @@
                 <!--end::Input group-->
 
 
-
-
-
-                <!--begin::Input group-->
-                <div class="row mb-6">
-                    <!--begin::Label-->
-                    <label class="col-lg-4 col-form-label fw-bold fs-6">{{ __('المدينة ') }}</label>
-                    <!--end::Label-->
-
-                    <!--begin::Col-->
-                    <div class="col-lg-8 fv-row">
-                        <input type="text" name="city" class="form-control form-control-lg form-control-solid"
-                               placeholder="المدينة" value="{{ old('city', auth()->user()->info->district->city ?? '') }}"/>
-                    </div>
-                    <!--end::Col-->
-                </div>
-                <!--end::Input group-->
-
-
-
                 <!--begin::Input group-->
                 <div class="row mb-6">
                     <!--begin::Label-->
@@ -194,8 +174,14 @@
 
                     <!--begin::Col-->
                     <div class="col-lg-8 fv-row">
-                        <input type="text" name="distric" class="form-control form-control-lg form-control-solid"
-                               placeholder="الحي" value="{{ old('distric', auth()->user()->info->district->distric ?? '') }}"/>
+{{--                        <input type="text" name="distric" class="form-control form-control-lg form-control-solid"--}}
+{{--                               placeholder="الحي" value="{{ old('distric', auth()->user()->info->district->distric ?? '') }}"/>--}}
+                        <select name="distric" class="form-control form-control-lg form-control-solid">
+                            @if(is_null($info->district_id))<option selected disabled>اختر</option> @endif
+                            @foreach($districts as $district)
+                                <option value="{{ $district->id }}" @if($info->district_id == $district->id) selected @endif>{{ $district->city }}</option>
+                            @endforeach
+                        </select>
                     </div>
                     <!--end::Col-->
                 </div>

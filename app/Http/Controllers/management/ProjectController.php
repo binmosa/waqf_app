@@ -5,6 +5,8 @@ namespace App\Http\Controllers\management;
 use App\Http\Requests\ProjectRequest;
 use App\Models\Management;
 use App\Models\Project;
+use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class ProjectController
 {
@@ -12,9 +14,9 @@ class ProjectController
     /**
      * Display a listing of the resource.
      *
-     * @return Response
+     * @return View
      */
-    public function index()
+    public function index(): View
     {
         $projects = Project::query()->latest('id')->paginate();
         $managements = Management::query()->with('user', 'user.user:id,first_name,last_name')->get();
@@ -25,9 +27,9 @@ class ProjectController
     /**
      * Store a newly created resource in storage.
      *
-     * @return Response
+     * @return RedirectResponse
      */
-    public function store(ProjectRequest $request)
+    public function store(ProjectRequest $request): RedirectResponse
     {
         $attachment = null;
 

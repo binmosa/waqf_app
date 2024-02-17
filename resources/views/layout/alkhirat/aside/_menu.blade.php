@@ -836,8 +836,7 @@
         <div class="menu-item">
             <form id="form-log-out" class="hidden" action="{{route('logout')}}" method="POST">@csrf</form>
 
-            <!--begin:Menu link--><a class="menu-link" href="javascript:void(0)" onclick="$('#form-log-out').submit()"
-                                     target="_blank"><span class="menu-icon">
+            <!--begin:Menu link--><a class="menu-link" href="javascript:void(0)" onclick="$('#form-log-out').submit()"><span class="menu-icon">
                     <!--begin::Svg Icon | path: icons/duotune/abstract/abs027.svg-->
                     <span class="svg-icon svg-icon-2">
                          {!! theme()->getSvgIcon("icons/duotune/arrows/arr024.svg", "svg-icon-1") !!}

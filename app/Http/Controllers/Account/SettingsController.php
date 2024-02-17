@@ -8,6 +8,7 @@ use App\Http\Requests\Account\SettingsInfoRequest;
 use App\Http\Requests\Account\SettingsPasswordRequest;
 use App\Models\Beneficiary;
 use App\Models\Certificate;
+use App\Models\District;
 use App\Models\Experience;
 use App\Models\Necessity;
 use App\Models\Skill;
@@ -49,10 +50,11 @@ class SettingsController extends Controller
     {
         $user = auth()->user();
         $userStats = $this->userStatsService->getUserStats($user);
+        $districts = District::query()->select('id', 'city')->get();
         $info = auth()->user()->info;
 
         // get the default inner page
-        return view('pages.account.settings.settings', compact('info', 'userStats'));
+        return view('pages.account.settings.settings', compact('info', 'userStats', 'districts'));
     }
 
     /**
@@ -63,7 +65,7 @@ class SettingsController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request)
+    public function update(Request $request): Throwable|\Exception|\Illuminate\Http\RedirectResponse
     {
 
         // save user name
@@ -87,7 +89,7 @@ class SettingsController extends Controller
         try {
             DB::beginTransaction();
             // save user name
-            $data = $request->all();
+            $data = $request->except(['avatar']);
             auth()->user()->update([
                 'first_name' => $data['first_name'],
                 'last_name' => $data['last_name']
@@ -96,12 +98,11 @@ class SettingsController extends Controller
             $this->userRepository->updateUserInfo($data);
             DB::commit();
         } catch (Throwable $e) {
-            return ($e);
             DB::rollBack();
+            return ($e);
         }
 
         if ($request->hasFile('avatar')) {
-
             $image      = $request->file('avatar');
             $fileName   = time() . '.' . $image->getClientOriginalExtension();
 
